@@ -6,7 +6,7 @@ const dropdownList: DropdownItemProps[] = [
         id: 1,
         label: 'Change article content',
         icon: SquareMousePointer,
-        navigate: '/edit-article'
+        navigate: '/editor'
     },
     {
         id: 2,

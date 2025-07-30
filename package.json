@@ -9,11 +9,16 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@silexlabs/grapesjs-fonts": "^1.1.0",
+    "@silexlabs/grapesjs-ui-suggest-classes": "^1.1.0",
     "axios": "^1.10.0",
     "dayjs": "^1.11.13",
     "formik": "^2.4.6",
     "grapesjs": "^0.22.10",
     "grapesjs-blocks-basic": "^1.0.2",
+    "grapesjs-custom-code": "^1.0.2",
+    "grapesjs-parser-postcss": "^1.0.3",
+    "grapesjs-tui-image-editor": "^1.0.2",
     "lucide-react": "^0.525.0",
     "next": "15.4.1",
     "notistack": "^3.0.2",

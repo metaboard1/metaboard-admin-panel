@@ -2,6 +2,7 @@ import React, { useImperativeHandle, useState } from "react";
 import DeleteModel from "./DeleteModel";
 import ArticleModel from "./ArticleModel";
 import UserModel from "./UserModel";
+import PublicationModel from "./PublicationModel";
 
 export interface ModalRef {
     open: (e?: object) => void;
@@ -58,6 +59,16 @@ const Model = ({ modelName, modelTitle, modelDesc, onSubmit, ref }: ModelProps) 
         {
             modelName === 'user' &&
             <UserModel
+                title={modelTitle}
+                isVisible={modelData.isVisible}
+                onClose={handleClose}
+                onSubmit={onSubmit}
+                defaultData={modelData.defaultData}
+            />
+        }
+        {
+            modelName === 'publication' &&
+            <PublicationModel
                 title={modelTitle}
                 isVisible={modelData.isVisible}
                 onClose={handleClose}

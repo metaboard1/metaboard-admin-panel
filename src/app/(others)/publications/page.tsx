@@ -11,15 +11,16 @@ import { debounce } from "@/helpers";
 import { checkAuthorization } from "@/hoc";
 import { TableColumnProps } from "@/types/global.types";
 import dayjs from "dayjs";
-import { EllipsisVertical, Plus, Rows, Search, Star } from "lucide-react";
+import { EllipsisVertical, ExternalLink, Plus, Rows, Search, SquarePen, Star, Trash2 } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 
 
-const Articles = () => {
+const Publications = () => {
 
-    const [articlesData, setArticlesData] = useState<any>([]);
+    const [publicationsData, setPublicationsData] = useState<any>([]);
     const [paginationDetails, setPaginationDetails] = useState({
         limit: 10,
         page: 0,
@@ -32,10 +33,10 @@ const Articles = () => {
     });
 
     const deleteModelRef = useRef<ModalRef>(null);
-    const articleFormModelRef = useRef<ModalRef>(null);
+    const publicationFormModelRef = useRef<ModalRef>(null);
 
     useEffect(() => {
-        retrieveArticles();
+        retrievePublications();
     }, [filterConfig, paginationDetails.limit, paginationDetails.page]);
 
     const createFormDataFromObj = (data: object) => {
@@ -44,10 +45,10 @@ const Articles = () => {
         return formData;
     }
 
-    const createArticle = async (data: any) => {
+    const createPublication = async (data: any) => {
         try {
-            const { data: { createdData } } = await $crud.create('article', createFormDataFromObj(data));
-            setArticlesData((prevData: any) => {
+            const { data: { createdData } } = await $crud.create('metarule/publication', createFormDataFromObj(data));
+            setPublicationsData((prevData: any) => {
                 prevData.unshift(createdData);
                 return [...prevData];
             });
@@ -56,22 +57,22 @@ const Articles = () => {
         }
     }
 
-    const retrieveArticles = async () => {
+    const retrievePublications = async () => {
         try {
-            const { data: { rows, count } } = await $crud.retrieve(`articles?search=${filterConfig.search}&isActive=${filterConfig.isActive}&createdAt=${filterConfig.createdAt}&limit=${paginationDetails.limit}&page=${paginationDetails.page}`);
-            setArticlesData(() => rows);
+            const { data: { rows, count } } = await $crud.retrieve(`metarule/publications?search=${filterConfig.search}&isActive=${filterConfig.isActive}&createdAt=${filterConfig.createdAt}&limit=${paginationDetails.limit}&page=${paginationDetails.page}`);
+            setPublicationsData(() => rows);
             setPaginationDetails((prevData) => ({ ...prevData, totalRecords: count }))
         } catch (e) {
             console.error(e);
         }
     }
 
-    const updateArticle = async (data: any) => {
+    const updatePublication = async (data: any) => {
         try {
             const formData = createFormDataFromObj(data);
 
-            const { data: { updatedData } } = await $crud.update('article', formData);
-            setArticlesData((prevData: any) => {
+            const { data: { updatedData } } = await $crud.update('metarule/publication', formData);
+            setPublicationsData((prevData: any) => {
                 const index = prevData.findIndex((e: any) => e.id == updatedData.id);
                 prevData[index] = updatedData;
                 return [...prevData];
@@ -81,10 +82,10 @@ const Articles = () => {
         }
     }
 
-    const updateArticleStatus = async (id: number) => {
+    const updatePublicationStatus = async (id: number) => {
         try {
-            const { data: { updatedData } } = await $crud.patch('article-status', { id });
-            setArticlesData((prevData: any) => {
+            const { data: { updatedData } } = await $crud.patch('metarule/publication-status', { id });
+            setPublicationsData((prevData: any) => {
                 const index = prevData.findIndex((e: any) => e.id === updatedData.id);
                 prevData[index] = updatedData;
                 return [...prevData];
@@ -96,7 +97,7 @@ const Articles = () => {
     const setArticleAsFeatured = async (id: number) => {
         try {
             const { data: { updatedData } } = await $crud.patch('article-set-featured', { id });
-            setArticlesData((prevData: any) => {
+            setPublicationsData((prevData: any) => {
                 const featuredIndex = prevData.findIndex((e: any) => e.isFeatured);
                 if (featuredIndex > -1) {
                     prevData[featuredIndex] = {
@@ -112,22 +113,22 @@ const Articles = () => {
             console.error(e);
         }
     }
-    const deleteArticle = async (id: number) => {
+    const deletePublication = async (id: number) => {
         try {
             deleteModelRef.current?.close();
-            const { data: { deletedData: deletedRecordId } } = await $crud.delete('article', { id });
-            setArticlesData((prevData: any) => [...prevData.filter((e: any) => deletedRecordId !== e.id)]);
+            const { data: { deletedData: deletedRecordId } } = await $crud.delete('metarule/publication', { id });
+            setPublicationsData((prevData: any) => [...prevData.filter((e: any) => deletedRecordId !== e.id)]);
         } catch (e) {
             console.log(e);
         }
     }
 
     const handleArticleModelOnSubmit = (data: { isEdited: boolean; data: any }) => {
-        articleFormModelRef.current?.close();
+        publicationFormModelRef.current?.close();
         if (data.isEdited) {
-            updateArticle(data.data);
+            updatePublication(data.data);
         } else {
-            createArticle(data.data);
+            createPublication(data.data);
         }
     }
 
@@ -156,13 +157,13 @@ const Articles = () => {
             id: 'coverImage',
             label: 'Cover Image',
             align: 'center',
-            // renderCell: ({ coverImage }) => (
-            //     <ImagePreview
-            //         src={BASE_ASSETS_URL + `/article-cover-images/${coverImage}`}
-            //         alt="Article Cover"
-            //         className="inline-block size-9 rounded-full ring-2 ring-white border border-gray-200 cursor-pointer hover:ring-blue-200 hover:border-blue-200 transition duration-200"
-            //     />
-            // )
+            renderCell: ({ coverImage }) => (
+                <ImagePreview
+                    src={BASE_ASSETS_URL + `/publications/${coverImage}`}
+                    alt="Article Cover"
+                    className="inline-block size-9 rounded-full ring-2 ring-white border border-gray-200 cursor-pointer hover:ring-blue-200 hover:border-blue-200 transition duration-200"
+                />
+            )
         },
         {
             id: 'title',
@@ -170,27 +171,52 @@ const Articles = () => {
             align: 'center',
         },
         {
-            id: 'author',
-            label: 'Author',
+            id: 'pages',
+            label: 'Pages',
+            align: 'center'
+        },
+        {
+            id: 'isbn',
+            label: 'ISBN',
             align: 'center',
         },
         {
-            id: 'estimateReadTime',
-            label: 'Estimate Reading Time',
-            align: 'center',
-            renderCell: ({ estimateReadTime }) => `${estimateReadTime} min`
+            id: 'publisher',
+            label: 'Publisher',
+            align: 'center'
         },
         {
-            id: 'publishedAt',
-            label: 'Published Date',
+            id: 'publicationDate',
+            label: 'Publication Date',
             align: 'center',
-            renderCell: ({ publishedAt }) => dayjs(publishedAt).format("DD MMMM YYYY")
+            renderCell: ({ publicationDate }) => dayjs(publicationDate).format("DD MMMM YYYY")
         },
         {
             id: 'createdAt',
             label: 'Created At',
             align: 'center',
             renderCell: ({ createdAt }) => dayjs(createdAt).format("DD MMMM YYYY")
+        },
+        {
+            id: 'storeLinks',
+            label: 'Store Links',
+            align: 'center',
+            renderCell: ({ storeLinks }) => <div className="flex items-center justify-center gap-2">
+                <Link
+                    href={storeLinks.amazon ?? '#'}
+                    target="_blank"
+                    className="text-blue-600 hover:text-blue-800"
+                >
+                    <ExternalLink size={17} />
+                </Link>
+                <Link
+                    href={storeLinks.flipkart ?? '#'}
+                    target="_blank"
+                    className="text-blue-600 hover:text-blue-800"
+                >
+                    <ExternalLink size={17} />
+                </Link>
+            </div>
         },
         {
             id: 'status',
@@ -209,35 +235,17 @@ const Articles = () => {
             align: 'center',
             renderCell: (row) => (<>
                 <div className="flex justify-center gap-5">
-                    <Switch checked={row.isActive} onChange={() => updateArticleStatus(row.id)} />
-                    <div className="cursor-pointer" onClick={() => setArticleAsFeatured(row.id)}>
-                        <Star fill={row.isFeatured ? 'orange' : 'transparent'} color={row.isFeatured ? 'orange' : 'gray'} />
-                    </div>
-                    <Dropdown anchor={<EllipsisVertical />} >
-                        {
-                            dropdownList.map(({ label, icon: Icon, iconClass, navigate }, index) => <button
-                                key={index}
-                                type="submit"
-                                className="flex items-center gap-5  w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
-                                onClick={() => {
-                                    if (navigate) {
-                                        window.open(`${navigate}?id=${row.id}`, '_blank');
-                                    } else if (label === 'Delete') {
-                                        deleteModelRef.current?.open({ id: row.id });
-                                    } else if (label === 'Edit') {
-                                        articleFormModelRef.current?.open(row);
-                                    }
-                                }}
-                            >
-                                {
-                                    Icon &&
-                                    <Icon size={17} className={iconClass} />
-                                }
-                                {label}
-                            </button>)
-                        }
-                    </Dropdown>
-
+                    <Switch checked={row.isActive} onChange={() => updatePublicationStatus(row.id)} />
+                    <button
+                        onClick={() => publicationFormModelRef.current?.open(row)}
+                    >
+                        <SquarePen size={17} />
+                    </button>
+                    <button
+                        onClick={() => deleteModelRef.current?.open({ id: row.id })}
+                    >
+                        <Trash2 size={17} className="text-red-500 hover:text-red-700 transition-colors" />
+                    </button>
                 </div>
             </>
             ),
@@ -251,11 +259,11 @@ const Articles = () => {
         <div>
             <div className="space-y-6">
 
-                <ComponentCard title="Articles">
+                <ComponentCard title="Publications">
                     <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-[1fr_10rem_10rem_auto] items-end">
                         <Input
                             renderLeftIcon={<Search className="text-gray-500" size={14} />}
-                            placeholder="Search for article..."
+                            placeholder="Search for publication..."
                             onChange={(e) => handleSearchInputChange(e.target.value)}
                         />
 
@@ -287,9 +295,9 @@ const Articles = () => {
                             <button
                                 type="button"
                                 className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-hidden focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
-                                onClick={() => articleFormModelRef.current?.open()}
+                                onClick={() => publicationFormModelRef.current?.open()}
                             >
-                                Add Article
+                                Add Publication
                                 <Plus size={17} />
                             </button>
                         </div>
@@ -298,7 +306,7 @@ const Articles = () => {
 
                     <DataTable
                         columns={columns}
-                        rows={articlesData}
+                        rows={publicationsData}
                         paginationDetails={paginationDetails}
                         onPageChange={(e) => handlePaginationDetails('page', e)}
                         onLimitChange={(e) => handlePaginationDetails('limit', e)}
@@ -306,16 +314,15 @@ const Articles = () => {
 
                     <Model
                         ref={deleteModelRef}
-                        modelTitle="Delete Article"
-                        modelDesc="Are you sure you want to delete the article? The article will be permanently removed. This action cannot be undone."
+                        modelTitle="Delete Publication"
+                        modelDesc="Are you sure you want to delete the publication? The publication will be permanently removed. This action cannot be undone."
                         modelName="delete"
-                        onSubmit={({ id }) => deleteArticle(id)}
+                        onSubmit={({ id }) => deletePublication(id)}
                     />
                     <Model
-                        ref={articleFormModelRef}
-                        modelTitle="Create Article"
-                        modelDesc="Are you sure you want to delete the article? The article will be permanently removed. This action cannot be undone."
-                        modelName="article"
+                        ref={publicationFormModelRef}
+                        modelTitle="Create Publication"
+                        modelName="publication"
                         onSubmit={handleArticleModelOnSubmit}
                     />
 
@@ -329,4 +336,4 @@ const Articles = () => {
 
     </>);
 }
-export default checkAuthorization(Articles);
+export default checkAuthorization(Publications);
