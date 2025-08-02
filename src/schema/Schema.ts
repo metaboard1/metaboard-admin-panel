@@ -33,8 +33,10 @@ const articleValidations = {
 }
 const publicationValidations = {
     title: yup.string().required("Title is required").min(3, "Title must be at least 3 characters"),
+    subTitle: yup.string().required("Sub title is required").min(10, "Sub title must be at least 10 characters"),
     description: yup.string().required("Description is required").min(10, "Description must be at least 10 characters"),
     pages: yup.number().required("Pages is required").min(1, "Pages must be at least 1"),
+    price: yup.number().required("Price is required").min(50, "Price must be at least 50 ₹"),
     isbn: yup.string().required("ISBN number is required").matches(
         /^(?:ISBN(?:-1[03])?:? )?(?=[0-9X]{10}$|(?=(?:[0-9]+[- ]){3})[- 0-9X]{13}$|97[89][0-9]{10}$|(?=(?:[0-9]+[- ]){4})[- 0-9]{17}$)(?:97[89][- ]?)?[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9X]$/,
         "Please enter a valid ISBN"

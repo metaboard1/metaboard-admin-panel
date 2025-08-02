@@ -11,8 +11,10 @@ import dayjs from "dayjs";
 interface PublicationFormData {
     id: number;
     title: string;
+    subTitle: string;
     description: string;
     pages: number;
+    price: number;
     isbn: string;
     publisher: string;
     publicationDate: string;
@@ -43,15 +45,17 @@ const PublicationModel = ({
     const { handleSubmit, handleChange, handleBlur, values, errors, touched, setFieldValue, resetForm } = useFormik({
         initialValues: {
             title: defaultData?.title ?? '',
+            subTitle: defaultData?.subTitle ?? '',
             description: defaultData?.description ?? '',
             pages: defaultData?.pages ?? '',
+            price: defaultData?.price ?? '',
             isbn: defaultData?.isbn ?? '',
             publisher: defaultData?.publisher ?? '',
-            publicationDate: dayjs(defaultData?.publicationDate).format("YYYY-DD-MM")  ?? '',
+            publicationDate: dayjs(defaultData?.publicationDate).format("YYYY-DD-MM") ?? '',
             coverImage: defaultData?.coverImage ?? null,
             storeLinks: {
                 amazon: defaultData?.storeLinks?.amazon ?? '',
-                flipkart: defaultData?.storeLinks?.flipkart ??''
+                flipkart: defaultData?.storeLinks?.flipkart ?? ''
             }
         },
         validateOnChange: true,
@@ -86,7 +90,7 @@ const PublicationModel = ({
             <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
 
                 <form noValidate onSubmit={handleSubmit} className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-                    <div className={`relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all duration-300 sm:my-8 sm:w-full sm:max-w-3xl
+                    <div className={`relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all duration-300 sm:my-8 sm:w-full sm:max-w-7xl
                         ${isVisible ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-95 translate-y-4"}`}>
 
                         <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
@@ -125,16 +129,30 @@ const PublicationModel = ({
                                                 General Info:
                                             </h3>
 
-                                            <div>
-                                                <Label>Title</Label>
-                                                <Input
-                                                    placeholder="Enter title..."
-                                                    name="title"
-                                                    value={values.title}
-                                                    onChange={handleChange}
-                                                    error={Boolean(errors.title && touched.title)}
-                                                    hint={touched.title ? errors.title : ''}
-                                                />
+                                            <div className="flex justify-between gap-5">
+                                                <div className="w-1/2">
+                                                    <Label>Title</Label>
+                                                    <Input
+                                                        placeholder="Enter title..."
+                                                        name="title"
+                                                        value={values.title}
+                                                        onChange={handleChange}
+                                                        error={Boolean(errors.title && touched.title)}
+                                                        hint={touched.title ? errors.title : ''}
+                                                    />
+                                                </div>
+
+                                                <div className="w-1/2">
+                                                    <Label>Sub Title</Label>
+                                                    <Input
+                                                        placeholder="Enter sub title..."
+                                                        name="subTitle"
+                                                        value={values.subTitle}
+                                                        onChange={handleChange}
+                                                        error={Boolean(errors.subTitle && touched.subTitle)}
+                                                        hint={touched.subTitle ? errors.subTitle : ''}
+                                                    />
+                                                </div>
                                             </div>
 
                                             <div>
@@ -150,18 +168,33 @@ const PublicationModel = ({
                                                 />
                                             </div>
 
-                                            <div>
-                                                <Label>No of Pages</Label>
-                                                <Input
-                                                    placeholder="Enter total pages of publication..."
-                                                    name="pages"
-                                                    // @ts-ignore
-                                                    value={values.pages}
-                                                    onChange={handleChange}
-                                                    error={Boolean(errors.pages && touched.pages)}
-                                                    hint={touched.pages ? errors.pages : ''}
-                                                    type='number'
-                                                />
+                                            <div className="flex justify-between gap-5">
+                                                <div className="w-1/2">
+                                                    <Label>No of Pages</Label>
+                                                    <Input
+                                                        placeholder="Enter total pages of publication..."
+                                                        name="pages"
+                                                        // @ts-ignore
+                                                        value={values.pages}
+                                                        onChange={handleChange}
+                                                        error={Boolean(errors.pages && touched.pages)}
+                                                        hint={touched.pages ? errors.pages : ''}
+                                                        type='number'
+                                                    />
+                                                </div>
+                                                <div className="w-1/2">
+                                                    <Label>Price (₹)</Label>
+                                                    <Input
+                                                        placeholder="Enter price of publication..."
+                                                        name="price"
+                                                        // @ts-ignore
+                                                        value={values.price}
+                                                        onChange={handleChange}
+                                                        error={Boolean(errors.price && touched.price)}
+                                                        hint={touched.price ? errors.price : ''}
+                                                        type='number'
+                                                    />
+                                                </div>
                                             </div>
                                         </div>
 

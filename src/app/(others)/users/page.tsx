@@ -8,7 +8,7 @@ import { BASE_ASSETS_URL } from "@/constants";
 import { $crud } from "@/factory/crudFactory";
 import { debounce } from "@/helpers";
 import { checkAuthorization } from "@/hoc";
-import { TableColumnProps } from "@/types/global.types";
+import { TableColumnProps } from "@/types/global";
 import dayjs from "dayjs";
 import { Edit, Plus, Search } from "lucide-react";
 import { useEffect, useRef, useState } from "react";

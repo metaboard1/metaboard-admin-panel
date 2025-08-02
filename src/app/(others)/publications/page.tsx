@@ -9,7 +9,6 @@ import { BASE_ASSETS_URL } from "@/constants";
 import { $crud } from "@/factory/crudFactory";
 import { debounce } from "@/helpers";
 import { checkAuthorization } from "@/hoc";
-import { TableColumnProps } from "@/types/global.types";
 import dayjs from "dayjs";
 import { EllipsisVertical, ExternalLink, Plus, Rows, Search, SquarePen, Star, Trash2 } from "lucide-react";
 import Link from "next/link";

@@ -1,7 +1,6 @@
 'use client';
 
 import React from "react";
-import { DataTableProps } from "@/types/global.types";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Dropdown from "../ui/Dropdown";
 
