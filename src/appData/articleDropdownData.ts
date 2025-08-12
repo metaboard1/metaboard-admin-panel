@@ -1,4 +1,3 @@
-import { DropdownItemProps } from "@/types/global.types";
 import { SquareMousePointer, SquarePen, Trash2 } from "lucide-react";
 
 const dropdownList: DropdownItemProps[] = [

@@ -57,7 +57,7 @@ const Articles = () => {
 
     const retrieveArticles = async () => {
         try {
-            const { data: { rows, count } } = await $crud.retrieve(`articles?search=${filterConfig.search}&isActive=${filterConfig.isActive}&createdAt=${filterConfig.createdAt}&limit=${paginationDetails.limit}&page=${paginationDetails.page}`);
+            const { data: { rows, count } } = await $crud.retrieve(`articles?search=${encodeURIComponent(filterConfig.search)}&isActive=${filterConfig.isActive}&createdAt=${filterConfig.createdAt}&limit=${paginationDetails.limit}&page=${paginationDetails.page}`);
             setArticlesData(() => rows);
             setPaginationDetails((prevData) => ({ ...prevData, totalRecords: count }))
         } catch (e) {
@@ -83,6 +83,18 @@ const Articles = () => {
     const updateArticleStatus = async (id: number) => {
         try {
             const { data: { updatedData } } = await $crud.patch('article-status', { id });
+            setArticlesData((prevData: any) => {
+                const index = prevData.findIndex((e: any) => e.id === updatedData.id);
+                prevData[index] = updatedData;
+                return [...prevData];
+            });
+        } catch (e) {
+            console.error(e);
+        }
+    }
+    const transferArticle = async (id: number) => {
+        try {
+            const { data: { updatedData } } = await $crud.patch('article-transfer', { id });
             setArticlesData((prevData: any) => {
                 const index = prevData.findIndex((e: any) => e.id === updatedData.id);
                 prevData[index] = updatedData;
@@ -155,13 +167,13 @@ const Articles = () => {
             id: 'coverImage',
             label: 'Cover Image',
             align: 'center',
-            // renderCell: ({ coverImage }) => (
-            //     <ImagePreview
-            //         src={BASE_ASSETS_URL + `/article-cover-images/${coverImage}`}
-            //         alt="Article Cover"
-            //         className="inline-block size-9 rounded-full ring-2 ring-white border border-gray-200 cursor-pointer hover:ring-blue-200 hover:border-blue-200 transition duration-200"
-            //     />
-            // )
+            renderCell: ({ coverImage }) => (
+                <ImagePreview
+                    src={BASE_ASSETS_URL + `/articles/${coverImage}`}
+                    alt="Article Cover"
+                    className="inline-block size-9 rounded-full ring-2 ring-white border border-gray-200 cursor-pointer hover:ring-blue-200 hover:border-blue-200 transition duration-200"
+                />
+            )
         },
         {
             id: 'title',
@@ -174,10 +186,14 @@ const Articles = () => {
             align: 'center',
         },
         {
-            id: 'estimateReadTime',
-            label: 'Estimate Reading Time',
+            id: 'tags',
+            label: 'Tag',
             align: 'center',
-            renderCell: ({ estimateReadTime }) => `${estimateReadTime} min`
+            renderCell: (({ tags }) =>
+                <span className="py-1 px-2 inline-flex items-center gap-x-1 text-xs font-medium bg-teal-100 text-teal-800 rounded-full dark:bg-teal-500/10 dark:text-teal-500">
+                    #{tags[0]}
+                </span>
+            )
         },
         {
             id: 'publishedAt',
@@ -190,6 +206,12 @@ const Articles = () => {
             label: 'Created At',
             align: 'center',
             renderCell: ({ createdAt }) => dayjs(createdAt).format("DD MMMM YYYY")
+        },
+        {
+            id: 'createdAt',
+            label: 'MetaRule',
+            align: 'center',
+            renderCell: ({ id, isForMetaRule }) => <div className="flex justify-center cursor-pointer" onClick={() => transferArticle(id)}><span className={`flex w-1 h-1 me-2 rounded-full ${isForMetaRule ? 'bg-green-500 shadow-[0_0_5px_3px_rgba(34,197,94,0.9)] animate-pulse' : 'bg-red-500 shadow-[0_0_5px_3px_rgba(239,68,68,0.9)]'}`} /></div>
         },
         {
             id: 'status',

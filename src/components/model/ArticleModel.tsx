@@ -17,6 +17,7 @@ interface ArticleFormData {
         twitter: 'string',
         linkedin: 'string'
     };
+    tags: string[];
     estimateReadTime: string;
     coverImage: File | null;
 }
@@ -47,6 +48,7 @@ const ArticleModel = ({
             author: defaultData?.author ?? '',
             estimateReadTime: defaultData?.estimateReadTime ?? '',
             coverImage: defaultData?.coverImage ?? null,
+            tags: defaultData?.tags?.join(',') ?? '',
             authorSocials: {
                 twitter: defaultData?.authorSocials?.twitter ?? '',
                 facebook: defaultData?.authorSocials?.facebook ?? '',
@@ -84,10 +86,10 @@ const ArticleModel = ({
             <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
 
                 <form noValidate onSubmit={handleSubmit} className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-                    <div className={`relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all duration-300 sm:my-8 sm:w-full sm:max-w-3xl
+                    <div className={`relative transform overflow-hidden rounded-lg bg-white border-gray-200 dark:divide-white/[0.05] dark:border-gray-800 text-left shadow-xl transition-all duration-300 sm:my-8 sm:w-full sm:max-w-3xl
                         ${isVisible ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-95 translate-y-4"}`}>
 
-                        <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                        <div className=" dark:bg-gray-900 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                             <div className="sm:flex sm:items-start">
                                 <div className="mt-3 text-center sm:mt-0 sm:text-left flex-1">
                                     <h3 className="text-base font-semibold text-gray-900"
@@ -165,6 +167,19 @@ const ArticleModel = ({
                                                 hint={touched.author ? errors.author : ''}
                                             />
                                         </div>
+
+                                        <div>
+                                            <Label>Tags (example: travel,adventure,nature)</Label>
+                                            <Input
+                                                placeholder="Enter tags..."
+                                                name="tags"
+                                                value={values.tags}
+                                                onChange={handleChange}
+                                                error={Boolean(errors.tags && touched.tags)}
+                                                hint={touched.tags ? errors.tags : ''}
+                                            />
+                                        </div>
+
                                         <div className="flex justify-between gap-5">
 
                                             <div>
@@ -208,7 +223,7 @@ const ArticleModel = ({
                             </div>
                         </div>
 
-                        <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row justify-end sm:px-6">
+                        <div className="bg-gray-50 dark:bg-gray-900 px-4 py-3 sm:flex sm:flex-row justify-end sm:px-6">
                             <button
                                 type="button"
                                 className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50 sm:mt-0 sm:w-auto"

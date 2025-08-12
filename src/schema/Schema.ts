@@ -25,6 +25,10 @@ const articleValidations = {
     description: yup.string().required("Description is required").min(10, "Description must be at least 10 characters"),
     author: yup.string().required("Author is required"),
     estimateReadTime: yup.string().required("Estimate read time is required"),
+    tags: yup.string().test('isValidTags', 'Tag must contain only alphabets (a–z), for example: travel,adventure,nature and special characters are not allowed.', val => {
+        const value = val?.trim();
+        return !!value && value?.split(',').every((elem) => (/^[a-z]+$/.test(elem)));
+    }),
     authorSocials: yup.object({
         linkedin: yup.string().url('Must be a valid URL').nullable(),
         facebook: yup.string().url('Must be a valid URL').nullable(),

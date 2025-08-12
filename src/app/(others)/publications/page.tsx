@@ -176,6 +176,12 @@ const Publications = () => {
             align: 'center'
         },
         {
+            id: 'price',
+            label: 'Price',
+            align: 'center',
+            renderCell:({price})=> `₹${price}`
+        },
+        {
             id: 'isbn',
             label: 'ISBN',
             align: 'center',
