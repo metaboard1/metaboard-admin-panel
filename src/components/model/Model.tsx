@@ -3,6 +3,7 @@ import DeleteModel from "./DeleteModel";
 import ArticleModel from "./ArticleModel";
 import UserModel from "./UserModel";
 import PublicationModel from "./PublicationModel";
+import DocumentModel from "./DocumentModel";
 
 export interface ModalRef {
     open: (e?: object) => void;
@@ -69,6 +70,16 @@ const Model = ({ modelName, modelTitle, modelDesc, onSubmit, ref }: ModelProps) 
         {
             modelName === 'publication' &&
             <PublicationModel
+                title={modelTitle}
+                isVisible={modelData.isVisible}
+                onClose={handleClose}
+                onSubmit={onSubmit}
+                defaultData={modelData.defaultData}
+            />
+        }
+        {
+            modelName === 'document' &&
+            <DocumentModel
                 title={modelTitle}
                 isVisible={modelData.isVisible}
                 onClose={handleClose}

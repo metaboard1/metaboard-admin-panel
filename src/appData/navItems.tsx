@@ -1,4 +1,4 @@
-import {  BookText, LayoutDashboard, Newspaper, User2 } from "lucide-react";
+import {  Atom, BookText, LayoutDashboard, Newspaper, User2 } from "lucide-react";
 
 type NavItem = {
     name: string;
@@ -22,6 +22,11 @@ const navItems: NavItem[] = [
         icon: <BookText />,
         name: "Publications",
         path: "/publications",
+    },
+    {
+        icon: <Atom  />,
+        name: "Document",
+        path: "/document",
     },
     {
         icon: <User2 />,

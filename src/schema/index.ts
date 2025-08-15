@@ -1,5 +1,5 @@
 import * as yup from 'yup';
-import  { articleValidations, loginValidations, publicationValidations, userValidations } from './Schema';
+import  { articleValidations, documentValidations, loginValidations, publicationValidations, userValidations } from './Schema';
 
 
 let validationSchema = (screen: string) => {
@@ -14,6 +14,9 @@ let validationSchema = (screen: string) => {
             break;
         case "publication":
             yupValidateObj = publicationValidations 
+            break;
+        case "document":
+            yupValidateObj = documentValidations 
             break;
         case "user":
             yupValidateObj = userValidations 
