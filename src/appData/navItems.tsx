@@ -25,8 +25,8 @@ const navItems: NavItem[] = [
     },
     {
         icon: <Atom  />,
-        name: "Document",
-        path: "/document",
+        name: "Documents",
+        path: "/documents",
     },
     {
         icon: <User2 />,

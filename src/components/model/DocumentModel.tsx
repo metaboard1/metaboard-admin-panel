@@ -1,7 +1,10 @@
+'use client';
+
 import { Dropzone, Input, Label } from "../ui";
 import { useFormik } from "formik";
 import validationSchema from "@/schema";
 import { useEffect } from "react";
+import { FileMinus } from "lucide-react";
 
 interface DocumentFormData {
     id: number;
@@ -42,7 +45,6 @@ const DocumentModel = ({
         enableReinitialize: true,
         validationSchema: validationSchema('document'),
         onSubmit: async (values) => {
-            // console.log(values, "========   ")
             if (defaultData?.id) {
                 onSubmit?.({ data: { ...values, id: defaultData?.id }, isEdited: true });
             } else {
@@ -50,10 +52,15 @@ const DocumentModel = ({
             }
         }
     });
-    console.log(errors)
+
     useEffect(() => {
         !isVisible && resetForm();
     }, [isVisible])
+
+
+    const isFile = (file: any): file is File => {
+        return file && typeof file === "object" && "name" in file && "size" in file;
+    }
 
     return (
         <div className={`relative z-10 ${isVisible ? "pointer-events-auto" : "pointer-events-none"}`}
@@ -92,16 +99,18 @@ const DocumentModel = ({
                                                 setFieldValue('file', file);
                                             }}
                                         />
-                                        {/* {
-                                            values.coverImage &&
-                                            <div className="relative  w-[150px] cursor-pointer flex justify-center bg-white border border-dashed border-gray-300 rounded-xl dark:bg-neutral-800 dark:border-neutral-600" data-hs-file-upload-trigger="">
-                                                <ImagePreview
-                                                    src={values.coverImage instanceof File ? URL.createObjectURL(values.coverImage) : BASE_ASSETS_URL + `/article-cover-images/${defaultData?.coverImage}`}
-                                                    alt="Article Cover"
-                                                    className="w-[100%] h-[100px]"
-                                                />
+
+                                        {
+                                            values.file &&
+                                            <div
+                                                className="group max-w-40 cursor-pointer flex items-center gap-2 px-3 py-2 bg-white/80 backdrop-blur-sm border-2 border-dashed border-gray-200 hover:border-blue-300 rounded-xl transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 dark:bg-neutral-800 dark:border-neutral-600"
+                                            >
+                                                <FileMinus size={14} className="text-gray-500 flex-shrink-0 group-hover:text-blue-500 transition-colors duration-300" />
+                                                <span className="text-xs text-gray-700 truncate flex-1 group-hover:text-blue-700 transition-colors duration-300" >
+                                                    {isFile(values.file) ? values.file.name : values.file}
+                                                </span>
                                             </div>
-                                        } */}
+                                        }
 
                                         <div>
                                             <Label>Title</Label>

@@ -33,7 +33,7 @@ const LoginForm: FC = ({
             if (token) {
                 localStorage.setItem('token', token);
                 localStorage.setItem('user', JSON.stringify(user));
-                router.push('/articles');
+                router.push('/dashboard');
             }
         } catch (e) {
             console.error(e);

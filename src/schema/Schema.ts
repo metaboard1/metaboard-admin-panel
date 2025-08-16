@@ -53,7 +53,6 @@ const publicationValidations = {
     }).nullable(),
 }
 const documentValidations = {
-    // document: yup.string().required("document is required"),
     title: yup.string().required("Title is required").min(3, "Title must be at least 3 characters"),
     description: yup.string().required("Description is required").min(10, "Description must be at least 10 characters"),
     estimateReadTime: yup.string().required("Estimate read time is required"),

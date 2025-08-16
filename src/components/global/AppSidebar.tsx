@@ -2,9 +2,9 @@
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useSidebar } from "../../context/SidebarContext";
-import { AirVent } from "lucide-react";
+import { AirVent, LogOut, Settings, User } from "lucide-react";
 import { navItems } from "@/appData";
 
 type NavItem = {
@@ -21,7 +21,7 @@ type NavItem = {
 const AppSidebar: React.FC = () => {
     const { isExpanded, isMobileOpen, isHovered, setIsHovered } = useSidebar();
     const pathname = usePathname();
-
+    const router = useRouter();
 
     const [openSubmenu, setOpenSubmenu] = useState<{
         type: "main" | "others";
@@ -204,6 +204,11 @@ const AppSidebar: React.FC = () => {
         });
     };
 
+    const onLogout = () => {
+        localStorage.clear();
+        router.push('/')
+    }
+
     return (
         <aside
             className={`fixed mt-16 flex flex-col lg:mt-0 top-0 px-5 left-0 bg-white dark:bg-gray-900 dark:border-gray-800 text-gray-900 h-screen transition-all duration-300 ease-in-out border-r border-gray-200 z-10
@@ -249,28 +254,41 @@ const AppSidebar: React.FC = () => {
                     )}
                 </Link>
             </div>
-            <div className="flex flex-col overflow-y-auto duration-300 ease-linear no-scrollbar">
-                <nav className="mb-6">
-                    <div className="flex flex-col gap-4">
-                        <div>
-                            <h2
-                                className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${!isExpanded && !isHovered
-                                    ? "lg:justify-center"
-                                    : "justify-start"
-                                    }`}
-                            >
-                                {/* {isExpanded || isHovered || isMobileOpen ? (
+            <div className="flex flex-col overflow-y-auto duration-300 ease-linear no-scrollbar gap-4 flex-1">
+                <div className="flex-1">
+                    <h2
+                        className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${!isExpanded && !isHovered
+                            ? "lg:justify-center"
+                            : "justify-start"
+                            }`}
+                    >
+                        {/* {isExpanded || isHovered || isMobileOpen ? (
                                     "Menu"
                                 ) : (
                                     <AirVent  />
                                 )} */}
-                            </h2>
-                            {renderMenuItems(navItems, 'main')}
+                    </h2>
+                    {renderMenuItems(navItems, 'main')}
+                </div>
+
+                <div className="mb-6">
+                    <h4 className="text-sm font-semibold text-gray-600 mb-3 uppercase tracking-wider">Compact</h4>
+                    <div className="flex items-center space-x-3 justify-start">
+                        <div className="relative">
+                            <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-xl flex items-center justify-center shadow-lg">
+                                <User className="w-5 h-5 text-white" />
+                            </div>
+                            <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 border-2 border-white rounded-full"></div>
                         </div>
 
+                        <div className="flex-1 min-w-0 text-left">
+                            <p className="font-semibold text-gray-900 truncate">yash kumar jha</p>
+                            <p className="text-xs text-gray-500 truncate">admin</p>
+                        </div>
 
+                        <LogOut className="w-5 h-5 text-red-500 duration-300 cursor-pointer" onClick={onLogout} />
                     </div>
-                </nav>
+                </div>
             </div>
         </aside>
     );
