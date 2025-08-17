@@ -32,7 +32,8 @@ const AppSidebar: React.FC = () => {
     );
     const subMenuRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
-    // const isActive = (path: string) => path === pathname;
+    const user = JSON.parse(localStorage.getItem('user') || 'null');
+
     const isActive = useCallback((path: string) => path === pathname, [pathname]);
 
     useEffect(() => {
@@ -226,33 +227,23 @@ const AppSidebar: React.FC = () => {
             <div
                 className={`py-8 flex justify-center`}
             >
-                <Link href="/">
-                    {isExpanded || isHovered || isMobileOpen ? (
-                        <>
-                            <Image
-                                className="dark:hidden"
-                                src="/assets/images/logo.png"
-                                alt="Logo"
-                                width={150}
-                                height={40}
-                            />
-                            <Image
-                                className="hidden dark:block"
-                                src="/assets/images/logo.png"
-                                alt="Logo"
-                                width={150}
-                                height={40}
-                            />
-                        </>
-                    ) : (
+                {isExpanded || isHovered || isMobileOpen ? (
+                    <>
                         <Image
-                            src="/assets/images/short-logo.png"
+                            src="/assets/images/logo.png"
                             alt="Logo"
-                            width={32}
-                            height={32}
+                            width={150}
+                            height={40}
                         />
-                    )}
-                </Link>
+                    </>
+                ) : (
+                    <Image
+                        src="/assets/images/short-logo.png"
+                        alt="Logo"
+                        width={32}
+                        height={32}
+                    />
+                )}
             </div>
             <div className="flex flex-col overflow-y-auto duration-300 ease-linear no-scrollbar gap-4 flex-1">
                 <div className="flex-1">
@@ -282,7 +273,7 @@ const AppSidebar: React.FC = () => {
                         </div>
 
                         <div className="flex-1 min-w-0 text-left">
-                            <p className="font-semibold text-gray-900 truncate">yash kumar jha</p>
+                            <p className="font-semibold text-gray-900 truncate">{user.name}</p>
                             <p className="text-xs text-gray-500 truncate">admin</p>
                         </div>
 
