@@ -15,9 +15,9 @@ const DataTable = ({
 }: DataTableProps) => {
 
     return (<>
-        <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
-            <div className="max-w-full overflow-x-auto">
-                <div className="min-w-[1102px] min-h-[30vh]   max-h-[60vh] overflow-y-auto">
+        {/* <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]"> */}
+            {/* <div className="max-w-full overflow-x-auto"> */}
+                <div className="min-w-[1102px] min-h-[30vh]   max-h-[50vh] overflow-y-auto">
                     <table className="min-w-full">
 
                         <thead className="sticky top-0 z-10 bg-gray-100 dark:bg-white/[0.05] border-b border-gray-200 dark:border-white/[0.05] text-gray-700 dark:text-gray-300 text-xs tracking-wider">
@@ -58,9 +58,9 @@ const DataTable = ({
                     </table>
                 </div>
 
-            </div>
+            {/* </div> */}
 
-        </div>
+        {/* </div> */}
 
         <div className="justify-center sm:flex sm:justify-between sm:items-center gap-2">
             <div>
@@ -109,12 +109,7 @@ const DataTable = ({
                             </button>
                         )
                     }
-                    {/* <button type="button" className="min-h-8 min-w-8 flex justify-center items-center text-gray-800 hover:bg-gray-100 py-1.5 px-2.5 text-sm rounded-full focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none">2</button> */}
-                    {/* <button type="button" className="min-h-8 min-w-8 flex justify-center items-center bg-gray-200 text-gray-800 py-1.5 px-2.5 text-sm rounded-full focus:outline-hidden focus:bg-gray-300 disabled:opacity-50 disabled:pointer-events-none" aria-current="page">1</button>
-                    <button type="button" className="min-h-8 min-w-8 flex justify-center items-center text-gray-800 hover:bg-gray-100 py-1.5 px-2.5 text-sm rounded-full focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none">2</button>
-                    <button type="button" className="min-h-8 min-w-8 flex justify-center items-center text-gray-800 hover:bg-gray-100 py-1.5 px-2.5 text-sm rounded-full focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none">3</button>
-                    <span className="text-[10px] group-hover:hidden">•••</span>
-                    <button type="button" className="min-h-8 min-w-8 flex justify-center items-center text-gray-800 hover:bg-gray-100 py-1.5 px-2.5 text-sm rounded-full focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none">8</button> */}
+                    
                 </div>
 
                 <button

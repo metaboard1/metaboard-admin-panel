@@ -167,9 +167,9 @@ const Articles = () => {
             id: 'coverImage',
             label: 'Cover Image',
             align: 'center',
-            renderCell: ({ coverImage }) => (
+            renderCell: ({ coverUrl }) => (
                 <ImagePreview
-                    src={BASE_ASSETS_URL + `/articles/${coverImage}`}
+                    src={coverUrl}
                     alt="Article Cover"
                     className="inline-block size-9 rounded-full ring-2 ring-white border border-gray-200 cursor-pointer hover:ring-blue-200 hover:border-blue-200 transition duration-200"
                 />

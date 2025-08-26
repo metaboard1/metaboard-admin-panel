@@ -130,6 +130,7 @@ export class CrudFactory {
 
     async notify({ message, type }: NotifyOptions): Promise<void> {
         if (message) {
+            console.log(message)
             snackbar(type as BaseVariant, message);
         }
     }

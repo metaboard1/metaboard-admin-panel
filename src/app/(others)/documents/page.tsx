@@ -10,7 +10,8 @@ import { $crud } from "@/factory/crudFactory";
 import { debounce } from "@/helpers";
 import { checkAuthorization } from "@/hoc";
 import dayjs from "dayjs";
-import { EllipsisVertical, Plus, Rows, Search, SquarePen, Star, Trash2 } from "lucide-react";
+import { EllipsisVertical, Eye, Plus, Rows, Search, SquarePen, Star, Trash2 } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
@@ -20,7 +21,7 @@ const Document = () => {
 
     const [documentData, setDocumentData] = useState<any>([]);
     const [paginationDetails, setPaginationDetails] = useState({
-        limit: 10,
+        limit: 100,
         page: 0,
         totalRecords: 0
     });
@@ -92,7 +93,7 @@ const Document = () => {
             console.error(e);
         }
     }
- 
+
     const deleteDocument = async (id: number) => {
         try {
             deleteModelRef.current?.close();
@@ -125,9 +126,9 @@ const Document = () => {
         }));
     }
 
-    const calculateFileSize=(fileSize: number)=>{
+    const calculateFileSize = (fileSize: number) => {
         const inKb = (fileSize / 1024).toFixed(2);
-        const inMb =  Math.floor((fileSize / 1024) / 1024);
+        const inMb = Math.floor((fileSize / 1024) / 1024);
         return inMb > 0 ? `${inMb} mb` : `${inKb} kb`
     }
 
@@ -167,7 +168,7 @@ const Document = () => {
             align: 'center',
             renderCell: (({ file }) =>
                 <span className="py-1 px-2 inline-flex items-center gap-x-1 text-xs font-medium bg-teal-100 text-teal-800 rounded-full dark:bg-teal-500/10 dark:text-teal-500">
-                   .{file?.split('.')?.[1]}
+                    .{file?.split('.')?.[1]}
                 </span>
             )
         },
@@ -195,6 +196,12 @@ const Document = () => {
             renderCell: (row) => (<>
                 <div className="flex justify-center gap-5">
                     <Switch checked={row.isActive} onChange={() => updateDocumentStatus(row.id)} />
+                    <Link
+                        href={`https://docs.google.com/gview?url=https://api.metaboard.in/uploads/documents/${row.fileUrl}`}
+                        target="_blank"
+                    >
+                        <Eye size={17} />
+                    </Link>
                     <button
                         onClick={() => documentFormModelRef.current?.open(row)}
                     >
@@ -215,84 +222,81 @@ const Document = () => {
 
 
     return (<>
-        <div>
-            <div className="space-y-6">
+        <div className="space-y-6">
 
-                <ComponentCard title="Documents">
-                    <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-[1fr_10rem_10rem_auto] items-end">
-                        <Input
-                            renderLeftIcon={<Search className="text-gray-500" size={14} />}
-                            placeholder="Search for document..."
-                            onChange={(e) => handleSearchInputChange(e.target.value)}
-                        />
+            <ComponentCard title="Documents">
+                <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-[1fr_10rem_10rem_auto] items-end">
+                    <Input
+                        renderLeftIcon={<Search className="text-gray-500" size={14} />}
+                        placeholder="Search for document..."
+                        onChange={(e) => handleSearchInputChange(e.target.value)}
+                    />
 
-                        <div className="w-full">
-                            <Dropdown label="Status">
+                    <div className="w-full">
+                        <Dropdown label="Status">
 
-                                {
-                                    [{ label: 'Active', value: true }, { label: 'Inactive', value: false }, { label: 'All', value: '' }].map((e, i) =>
-                                        <button
-                                            key={i}
-                                            type="submit"
-                                            className="flex items-center gap-5  w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
-                                            name={e.label}
-                                            onClick={() => handleFilterConfig('isActive', e.value)}
-                                        >
-                                            {e.label}
-                                        </button>
-                                    )
-                                }
+                            {
+                                [{ label: 'Active', value: true }, { label: 'Inactive', value: false }, { label: 'All', value: '' }].map((e, i) =>
+                                    <button
+                                        key={i}
+                                        type="submit"
+                                        className="flex items-center gap-5  w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
+                                        name={e.label}
+                                        onClick={() => handleFilterConfig('isActive', e.value)}
+                                    >
+                                        {e.label}
+                                    </button>
+                                )
+                            }
 
-                            </Dropdown>
-                        </div>
-
-                        <div className="w-full">
-                            <Dropdown label="Created At" />
-                        </div>
-
-                        <div className="w-full">
-                            <button
-                                type="button"
-                                className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-hidden focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
-                                onClick={() => documentFormModelRef.current?.open()}
-                            >
-                                Add Document
-                                <Plus size={17} />
-                            </button>
-                        </div>
+                        </Dropdown>
                     </div>
 
+                    <div className="w-full">
+                        <Dropdown label="Created At" />
+                    </div>
 
-                    <DataTable
-                        columns={columns}
-                        rows={documentData}
-                        paginationDetails={paginationDetails}
-                        onPageChange={(e) => handlePaginationDetails('page', e)}
-                        onLimitChange={(e) => handlePaginationDetails('limit', e)}
-                    />
+                    <div className="w-full">
+                        <button
+                            type="button"
+                            className="w-full py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-hidden focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
+                            onClick={() => documentFormModelRef.current?.open()}
+                        >
+                            Add Document
+                            <Plus size={17} />
+                        </button>
+                    </div>
+                </div>
 
-                    <Model
-                        ref={deleteModelRef}
-                        modelTitle="Delete Document"
-                        modelDesc="Are you sure you want to delete the document? The document will be permanently removed. This action cannot be undone."
-                        modelName="delete"
-                        onSubmit={({ id }) => deleteDocument(id)}
-                    />
-                    <Model
-                        ref={documentFormModelRef}
-                        modelTitle="Create Document"
-                        modelName="document"
-                        onSubmit={handleArticleModelOnSubmit}
-                    />
 
-                    {/* <button className="rounded-md bg-gray-950/5 px-2.5 py-1.5 text-sm font-semibold text-gray-900 hover:bg-gray-950/10"
+                <DataTable
+                    columns={columns}
+                    rows={documentData}
+                    paginationDetails={paginationDetails}
+                    onPageChange={(e) => handlePaginationDetails('page', e)}
+                    onLimitChange={(e) => handlePaginationDetails('limit', e)}
+                />
+
+                <Model
+                    ref={deleteModelRef}
+                    modelTitle="Delete Document"
+                    modelDesc="Are you sure you want to delete the document? The document will be permanently removed. This action cannot be undone."
+                    modelName="delete"
+                    onSubmit={({ id }) => deleteDocument(id)}
+                />
+                <Model
+                    ref={documentFormModelRef}
+                    modelTitle="Create Document"
+                    modelName="document"
+                    onSubmit={handleArticleModelOnSubmit}
+                />
+
+                {/* <button className="rounded-md bg-gray-950/5 px-2.5 py-1.5 text-sm font-semibold text-gray-900 hover:bg-gray-950/10"
                         onClick={() => console.log(modelRef?.current?.open(), "----------")}>Open dialog</button> */}
 
 
-                </ComponentCard>
-            </div>
+            </ComponentCard>
         </div>
-
     </>);
 }
 export default checkAuthorization(Document);

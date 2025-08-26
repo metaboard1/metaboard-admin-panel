@@ -39,9 +39,9 @@ export default function RootLayout({
             <div className="loader"></div>
           </div>
         </LoaderContainer>
-        <SnackbarProvider>
+        <SnackbarProvider> 
           <Suspense>
-          {children}
+            {children}
           </Suspense>
         </SnackbarProvider>
       </body>

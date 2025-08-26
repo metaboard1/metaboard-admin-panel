@@ -17,6 +17,7 @@ const ImagePreview = ({ src, alt = '', className }: ImagePreviewProps) => {
                     src={src}
                     alt={alt}
                     className={className ?? 'w-32 h-32 object-cover rounded cursor-pointer'}
+                    loading='lazy'
                 />
             </PhotoView>
         </PhotoProvider>

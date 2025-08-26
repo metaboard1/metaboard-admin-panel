@@ -126,9 +126,9 @@ const Users = () => {
             id: 'avatar',
             label: 'Avatar',
             align: 'center',
-            renderCell: ({ avatar }) => (
+            renderCell: ({ avatarUrl }) => (
                 <ImagePreview
-                    src={BASE_ASSETS_URL + `/users-avatar/${avatar}`}
+                    src={avatarUrl}
                     alt="User Avatar"
                     className="inline-block size-9 rounded-full ring-2 ring-white border border-gray-200 cursor-pointer hover:ring-blue-200 hover:border-blue-200 transition duration-200"
                 />

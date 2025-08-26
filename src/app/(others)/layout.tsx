@@ -6,7 +6,7 @@ import { SidebarProvider, useSidebar } from "@/context/SidebarContext";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { checkAuthorization } from "@/hoc";
 
-const CommonLayout = ({ children }:any) => {
+const CommonLayout = ({ children }: any) => {
     const { isExpanded, isHovered, isMobileOpen } = useSidebar();
 
     const mainContentMargin = isMobileOpen
