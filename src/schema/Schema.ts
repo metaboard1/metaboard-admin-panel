@@ -37,7 +37,7 @@ const articleValidations = {
 }
 const publicationValidations = {
     title: yup.string().required("Title is required").min(3, "Title must be at least 3 characters"),
-    subTitle: yup.string().required("Sub title is required").min(10, "Sub title must be at least 10 characters"),
+    // subTitle: yup.string().required("Sub title is required").min(10, "Sub title must be at least 10 characters"),
     description: yup.string().required("Description is required").min(10, "Description must be at least 10 characters"),
     pages: yup.number().required("Pages is required").min(1, "Pages must be at least 1"),
     price: yup.number().required("Price is required").min(50, "Price must be at least 50 ₹"),

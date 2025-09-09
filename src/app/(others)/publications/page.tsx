@@ -1,18 +1,15 @@
 'use client';
 
-import dropdownList from "@/appData/articleDropdownData";
 import { ComponentCard, DataTable, ImagePreview } from "@/components/global";
 import Model, { ModalRef } from "@/components/model/Model";
 import { Badge, Input, Switch } from "@/components/ui";
 import Dropdown from "@/components/ui/Dropdown";
-import { BASE_ASSETS_URL } from "@/constants";
 import { $crud } from "@/factory/crudFactory";
 import { debounce } from "@/helpers";
 import { checkAuthorization } from "@/hoc";
 import dayjs from "dayjs";
-import { EllipsisVertical, ExternalLink, Plus, Rows, Search, SquarePen, Star, Trash2 } from "lucide-react";
+import { ExternalLink, Plus, Search, SquarePen, Trash2 } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 
@@ -177,13 +174,13 @@ const Publications = () => {
             id: 'publicationDate',
             label: 'Publication Date',
             align: 'center',
-            renderCell: ({ publicationDate }) => dayjs(publicationDate).format("DD MMMM YYYY")
+            renderCell: ({ publicationDate }) => dayjs(publicationDate).format("DD MMM YYYY")
         },
         {
             id: 'createdAt',
             label: 'Created At',
             align: 'center',
-            renderCell: ({ createdAt }) => dayjs(createdAt).format("DD MMMM YYYY")
+            renderCell: ({ createdAt }) => dayjs(createdAt).format("DD MMM YYYY")
         },
         {
             id: 'storeLink',

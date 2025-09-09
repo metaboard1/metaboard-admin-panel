@@ -198,13 +198,13 @@ const Articles = () => {
             id: 'publishedAt',
             label: 'Published Date',
             align: 'center',
-            renderCell: ({ publishedAt }) => dayjs(publishedAt).format("DD MMMM YYYY")
+            renderCell: ({ publishedAt }) => dayjs(publishedAt).format("DD MMM YYYY")
         },
         {
             id: 'createdAt',
             label: 'Created At',
             align: 'center',
-            renderCell: ({ createdAt }) => dayjs(createdAt).format("DD MMMM YYYY")
+            renderCell: ({ createdAt }) => dayjs(createdAt).format("DD MMM YYYY")
         },
         {
             id: 'isForMetaRule',

@@ -25,7 +25,6 @@ const Dropzone = ({
     const calculateFileSize = (fileSize: number) => {
         const inKb = (fileSize / 1024).toFixed();
         const inMb = Math.floor((fileSize / 1024) / 1024);
-        console.log(inMb > 0 ? `${inMb} mb` : `${inKb} kb`)
         return inMb > 0 ? `${inMb} MB` : `${inKb} KB`
     }
 

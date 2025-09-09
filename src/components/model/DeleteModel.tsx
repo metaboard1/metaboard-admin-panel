@@ -20,7 +20,7 @@ const DeleteModel = ({
         <div className={`relative z-10 ${isVisible ? "pointer-events-auto" : "pointer-events-none"}`} aria-labelledby="dialog-title" role="dialog" aria-modal="true">
 
             <div className={`fixed inset-0 bg-gray-500/75 transition-opacity duration-300 ease-out ${isVisible ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
-                aria-hidden="true" onClick={() => console.log(false)}></div>
+                aria-hidden="true"></div>
 
             <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
                 <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">

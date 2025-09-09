@@ -11,7 +11,7 @@ import dayjs from "dayjs";
 interface PublicationFormData {
     id: number;
     title: string;
-    subTitle: string;
+    // subTitle: string;
     description: string;
     pages: number;
     price: number;
@@ -48,7 +48,7 @@ const PublicationModel = ({
     const { handleSubmit, handleChange, handleBlur, values, errors, touched, setFieldValue, resetForm } = useFormik({
         initialValues: {
             title: defaultData?.title ?? '',
-            subTitle: defaultData?.subTitle ?? '',
+            // subTitle: defaultData?.subTitle ?? '',
             description: defaultData?.description ?? '',
             pages: defaultData?.pages ?? '',
             price: defaultData?.price ?? '',
@@ -68,7 +68,6 @@ const PublicationModel = ({
         enableReinitialize: true,
         validationSchema: validationSchema('publication'),
         onSubmit: async (values) => {
-            console.log(values)
             if (defaultData?.id) {
                 onSubmit?.({ data: { ...values, id: defaultData?.id }, isEdited: true });
             } else {
@@ -134,20 +133,18 @@ const PublicationModel = ({
                                                 General Info:
                                             </h3>
 
-                                            <div className="flex justify-between gap-5">
-                                                <div className="w-1/2">
-                                                    <Label>Title</Label>
-                                                    <Input
-                                                        placeholder="Enter title..."
-                                                        name="title"
-                                                        value={values.title}
-                                                        onChange={handleChange}
-                                                        error={Boolean(errors.title && touched.title)}
-                                                        hint={touched.title ? errors.title : ''}
-                                                    />
-                                                </div>
+                                            <div>
+                                                <Label>Title</Label>
+                                                <Input
+                                                    placeholder="Enter title..."
+                                                    name="title"
+                                                    value={values.title}
+                                                    onChange={handleChange}
+                                                    error={Boolean(errors.title && touched.title)}
+                                                    hint={touched.title ? errors.title : ''}
+                                                />
 
-                                                <div className="w-1/2">
+                                                {/* <div className="w-1/2">
                                                     <Label>Sub Title</Label>
                                                     <Input
                                                         placeholder="Enter sub title..."
@@ -157,7 +154,7 @@ const PublicationModel = ({
                                                         error={Boolean(errors.subTitle && touched.subTitle)}
                                                         hint={touched.subTitle ? errors.subTitle : ''}
                                                     />
-                                                </div>
+                                                </div> */}
                                             </div>
 
                                             <div>
