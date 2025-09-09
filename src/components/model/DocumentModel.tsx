@@ -94,7 +94,7 @@ const DocumentModel = ({
                                                 'application/vnd.ms-powerpoint': ['.ppt'],
                                                 'application/vnd.openxmlformats-officedocument.presentationml.presentation': ['.pptx']
                                             }}
-                                            fileSize={0.90}
+                                            fileSize={5}
                                             onFileSelect={(file) => {
                                                 setFieldValue('file', file);
                                             }}

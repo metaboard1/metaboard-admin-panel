@@ -18,11 +18,14 @@ interface PublicationFormData {
     isbn: string;
     publisher: string;
     publicationDate: string;
-    storeLinks: {
-        amazon: string,
-        flipkart: string
-    }
+    storeLink: string;
+    // storeLinks: {
+    //     amazon: string,
+    //     flipkart: string
+    // }
+    authors: string;
     coverImage: File | null;
+    coverUrl: string;
 }
 
 
@@ -53,10 +56,12 @@ const PublicationModel = ({
             publisher: defaultData?.publisher ?? '',
             publicationDate: dayjs(defaultData?.publicationDate).format("YYYY-DD-MM") ?? '',
             coverImage: defaultData?.coverImage ?? null,
-            storeLinks: {
-                amazon: defaultData?.storeLinks?.amazon ?? '',
-                flipkart: defaultData?.storeLinks?.flipkart ?? ''
-            }
+            storeLink: defaultData?.storeLink ?? '',
+            authors: defaultData?.authors ?? ''
+            // storeLinks: {
+            //     amazon: defaultData?.storeLinks?.amazon ?? '',
+            //     flipkart: defaultData?.storeLinks?.flipkart ?? ''
+            // }
         },
         validateOnChange: true,
         validateOnBlur: true,
@@ -108,7 +113,7 @@ const PublicationModel = ({
                                             acceptedFileTypes={{
                                                 'image/jpeg': ['.jpg', '.jpeg', '.png'],
                                             }}
-                                            fileSize={0.90}
+                                            fileSize={0.30}
                                             onFileSelect={(file) => {
                                                 setFieldValue('coverImage', file);
                                             }}
@@ -117,7 +122,7 @@ const PublicationModel = ({
                                             values.coverImage &&
                                             <div className="relative  w-[150px] cursor-pointer flex justify-center bg-white border border-dashed border-gray-300 rounded-xl dark:bg-neutral-800 dark:border-neutral-600" data-hs-file-upload-trigger="">
                                                 <ImagePreview
-                                                    src={values.coverImage instanceof File ? URL.createObjectURL(values.coverImage) : BASE_ASSETS_URL + `/publications/${defaultData?.coverImage}`}
+                                                    src={values.coverImage instanceof File ? URL.createObjectURL(values.coverImage) : `${defaultData?.coverUrl}`}
                                                     alt="Publication Cover"
                                                     className="w-[100%] h-[100px]"
                                                 />
@@ -196,6 +201,18 @@ const PublicationModel = ({
                                                     />
                                                 </div>
                                             </div>
+                                            <div>
+                                                <Label>Authors</Label>
+                                                <Input
+                                                    placeholder="Enter author names..."
+                                                    name="authors"
+                                                    // @ts-ignore
+                                                    value={values.authors}
+                                                    onChange={handleChange}
+                                                    error={Boolean(errors.authors && touched.authors)}
+                                                    hint={touched.authors ? errors.authors : ''}
+                                                />
+                                            </div>
                                         </div>
 
                                         <div className="flex flex-col gap-2">
@@ -244,7 +261,18 @@ const PublicationModel = ({
                                             <h3 className="text-md font-semibold text-gray-900">
                                                 Store Links:
                                             </h3>
-                                            <div className="flex justify-between gap-5">
+                                            <div>
+                                                <Label>Link Tree</Label>
+                                                <Input
+                                                    placeholder="Enter URL..."
+                                                    name="storeLink"
+                                                    value={values.storeLink}
+                                                    onChange={handleChange}
+                                                    error={Boolean(errors.storeLink && touched.storeLink)}
+                                                    hint={touched.storeLink ? errors.storeLink : ''}
+                                                />
+                                            </div>
+                                            {/* <div className="flex justify-between gap-5">
                                                 <div className="w-1/2">
                                                     <Label>Amazon</Label>
                                                     <Input
@@ -267,7 +295,7 @@ const PublicationModel = ({
                                                         hint={touched.storeLinks?.flipkart ? errors.storeLinks?.flipkart : ''}
                                                     />
                                                 </div>
-                                            </div>
+                                            </div> */}
 
                                         </div>
 

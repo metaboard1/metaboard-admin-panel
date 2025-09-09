@@ -4,7 +4,6 @@ import { ComponentCard, DataTable, ImagePreview } from "@/components/global";
 import Model, { ModalRef } from "@/components/model/Model";
 import { Badge, Input, Switch } from "@/components/ui";
 import Dropdown from "@/components/ui/Dropdown";
-import { BASE_ASSETS_URL } from "@/constants";
 import { $crud } from "@/factory/crudFactory";
 import { debounce } from "@/helpers";
 import { checkAuthorization } from "@/hoc";
@@ -28,7 +27,6 @@ const Users = () => {
         createdAt: ''
     });
 
-    // const deleteModelRef = useRef<ModalRef>(null);
     const userFormModelRef = useRef<ModalRef>(null);
 
     useEffect(() => {
@@ -44,6 +42,7 @@ const Users = () => {
     const createUser = async (data: any) => {
         try {
             const { data: { createdData } } = await $crud.create('user', createFormDataFromObj(data));
+            userFormModelRef.current?.close();
             setUsersData((prevData: any) => {
                 prevData.unshift(createdData);
                 return [...prevData];
@@ -68,6 +67,7 @@ const Users = () => {
             const formData = createFormDataFromObj(data);
 
             const { data: { updatedArticle } } = await $crud.update('user', formData);
+            userFormModelRef.current?.close();
             setUsersData((prevData: any) => {
                 const index = prevData.findIndex((e: any) => e.id == updatedArticle.id);
                 prevData[index] = updatedArticle;
@@ -90,10 +90,9 @@ const Users = () => {
             console.error(e);
         }
     }
-   
+
 
     const handleArticleModelOnSubmit = (data: { isEdited: boolean; data: any }) => {
-        userFormModelRef.current?.close();
         if (data.isEdited) {
             updateUser(data.data);
         } else {
@@ -215,9 +214,9 @@ const Users = () => {
                             </Dropdown>
                         </div>
 
-                        <div className="w-full">
+                        {/* <div className="w-full">
                             <Dropdown label="Created At" />
-                        </div>
+                        </div> */}
 
                         <div className="w-full">
                             <button

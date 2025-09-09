@@ -6,29 +6,37 @@ type accept = {
     [key: string]: string[];
 }
 interface DropzoneProp {
-    fileSize: number;
+    fileSize: number; //in mb
     acceptedFileTypes: accept;
     onFileSelect: (e: File) => void
 }
 
 const Dropzone = ({
-    fileSize,
+    fileSize = 0,
     acceptedFileTypes,
     onFileSelect
 }: DropzoneProp) => {
 
+    fileSize = fileSize * (1024 * 1024);
     const onDrop = useCallback((acceptedFiles: File[]) => {
         acceptedFiles.length && onFileSelect(acceptedFiles[0])
     }, []);
+
+    const calculateFileSize = (fileSize: number) => {
+        const inKb = (fileSize / 1024).toFixed();
+        const inMb = Math.floor((fileSize / 1024) / 1024);
+        console.log(inMb > 0 ? `${inMb} mb` : `${inKb} kb`)
+        return inMb > 0 ? `${inMb} MB` : `${inKb} KB`
+    }
 
     const { getRootProps, getInputProps } = useDropzone({
         onDrop,
         accept: acceptedFileTypes,
         minSize: 0,
-        maxSize: fileSize * 1000000,
+        maxSize: fileSize,
         validator: (file) => {
-            if (file.size > fileSize * 1000000) {
-                snackbar('error', `Please select file under ${fileSize * 1000000} mb`);
+            if (file.size > fileSize) {
+                snackbar('error', `Please select file under ${calculateFileSize(fileSize)}`);
             }
             return null;
         }
@@ -56,7 +64,7 @@ const Dropzone = ({
                     </div>
 
                     <p className="mt-1 text-xs text-gray-400 dark:text-neutral-400">
-                        Pick a photo up to 2MB.
+                        Pick a file up to {calculateFileSize(fileSize)}.
                     </p>
                 </div>
             </div>

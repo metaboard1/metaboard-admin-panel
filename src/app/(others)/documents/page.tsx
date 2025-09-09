@@ -47,6 +47,7 @@ const Document = () => {
     const createDocument = async (data: any) => {
         try {
             const { data: { createdData } } = await $crud.create('document', createFormDataFromObj(data));
+            documentFormModelRef.current?.close();
             setDocumentData((prevData: any) => {
                 prevData.unshift(createdData);
                 return [...prevData];
@@ -71,6 +72,7 @@ const Document = () => {
             const formData = createFormDataFromObj(data);
 
             const { data: { updatedData } } = await $crud.update('document', formData);
+            documentFormModelRef.current?.close();
             setDocumentData((prevData: any) => {
                 const index = prevData.findIndex((e: any) => e.id == updatedData.id);
                 prevData[index] = updatedData;
@@ -105,7 +107,6 @@ const Document = () => {
     }
 
     const handleArticleModelOnSubmit = (data: { isEdited: boolean; data: any }) => {
-        documentFormModelRef.current?.close();
         if (data.isEdited) {
             updateDocument(data.data);
         } else {
@@ -197,7 +198,7 @@ const Document = () => {
                 <div className="flex justify-center gap-5">
                     <Switch checked={row.isActive} onChange={() => updateDocumentStatus(row.id)} />
                     <Link
-                        href={`https://docs.google.com/gview?url=https://api.metaboard.in/uploads/documents/${row.fileUrl}`}
+                        href={`https://docs.google.com/gview?url=${row.fileUrl}`}
                         target="_blank"
                     >
                         <Eye size={17} />
@@ -252,9 +253,9 @@ const Document = () => {
                         </Dropdown>
                     </div>
 
-                    <div className="w-full">
+                    {/* <div className="w-full">
                         <Dropdown label="Created At" />
-                    </div>
+                    </div> */}
 
                     <div className="w-full">
                         <button

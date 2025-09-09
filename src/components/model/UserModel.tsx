@@ -1,11 +1,9 @@
-import { Checkbox, Dropzone, Input, Label } from "../ui";
+import {  Dropzone, Input, Label } from "../ui";
 import { useFormik } from "formik";
 import validationSchema from "@/schema";
 import { useEffect } from "react";
-import Image from "next/image";
-import { BASE_ASSETS_URL } from "@/constants";
-import { DeleteIcon, Eye, Trash2 } from "lucide-react";
 import { ImagePreview } from "../global";
+import Dropdown from "../ui/Dropdown";
 
 interface UserFormData {
     id: number;
@@ -13,6 +11,8 @@ interface UserFormData {
     email: string;
     password: string;
     avatar: File | null;
+    avatarUrl: string;
+    role: 'admin' | 'manager';
 }
 
 
@@ -32,14 +32,13 @@ const UserModel = ({
     onSubmit,
 }: ModelProps) => {
 
-
-
-    const { handleSubmit, handleChange, handleBlur, values, errors, touched, setFieldValue, resetForm } = useFormik({
+    const { handleSubmit, handleChange, values, errors, touched, setFieldValue, resetForm } = useFormik({
         initialValues: {
             name: defaultData?.name ?? '',
             email: defaultData?.email ?? '',
             password: '',
-            avatar: defaultData?.avatar ?? ''
+            avatar: defaultData?.avatar ?? '',
+            role: defaultData?.role ?? 'manager'
         },
         validateOnChange: true,
         validateOnBlur: true,
@@ -97,7 +96,7 @@ const UserModel = ({
                                             values.avatar &&
                                             <div className="relative  w-[150px] cursor-pointer flex justify-center bg-white border border-dashed border-gray-300 rounded-xl dark:bg-neutral-800 dark:border-neutral-600" data-hs-file-upload-trigger="">
                                                 <ImagePreview
-                                                    src={values.avatar instanceof File ? URL.createObjectURL(values.avatar) : BASE_ASSETS_URL + `/users-avatar/${defaultData?.avatar}`}
+                                                    src={values.avatar instanceof File ? URL.createObjectURL(values.avatar) : `${defaultData?.avatarUrl}`}
                                                     alt="User Avatar"
                                                     className="w-[100%] h-[100px]"
                                                 />
@@ -129,6 +128,22 @@ const UserModel = ({
                                         </div>
 
                                         <div>
+                                            <Dropdown label="Role" overlayStyles="w-full" defaultValue={values.role}>
+                                                {
+                                                    [{ label: 'Admin', value: 'admin' }, { label: 'Manager', value: 'manager' }].map((e, i) =>
+                                                        <div
+                                                            key={i}
+                                                            className="flex items-center gap-5  w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
+                                                            onClick={() => setFieldValue('role', e.value)}
+                                                        >
+                                                            {e.label}
+                                                        </div>
+                                                    )
+                                                }
+                                            </Dropdown>
+
+                                        </div>
+                                        <div>
                                             <Label>Password</Label>
                                             <Input
                                                 placeholder="Enter password..."
@@ -138,8 +153,8 @@ const UserModel = ({
                                                 error={Boolean(errors.password && touched.password)}
                                                 hint={touched.password ? errors.password : ''}
                                             />
-
                                         </div>
+
 
                                     </div>
                                 </div>
@@ -150,21 +165,15 @@ const UserModel = ({
                             <button
                                 type="button"
                                 className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50 sm:mt-0 sm:w-auto"
-                                onClick={() => {
-                                    // resetForm();
-                                    onClose();
-                                }}
-                            // disabled={isSubmitting}
+                                onClick={onClose}
                             >
                                 Cancel
                             </button>
                             <button
                                 type="submit"
                                 className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-red-500 sm:ml-3 sm:w-auto disabled:opacity-50 disabled:cursor-not-allowed"
-                            // disabled={isSubmitting}
                             >
                                 Submit
-                                {/* {isSubmitting ? 'Submitting...' : 'Submit'} */}
                             </button>
                         </div>
                     </div>

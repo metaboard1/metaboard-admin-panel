@@ -47,6 +47,7 @@ const Publications = () => {
     const createPublication = async (data: any) => {
         try {
             const { data: { createdData } } = await $crud.create('metarule/publication', createFormDataFromObj(data));
+            publicationFormModelRef.current?.close();
             setPublicationsData((prevData: any) => {
                 prevData.unshift(createdData);
                 return [...prevData];
@@ -71,6 +72,7 @@ const Publications = () => {
             const formData = createFormDataFromObj(data);
 
             const { data: { updatedData } } = await $crud.update('metarule/publication', formData);
+            publicationFormModelRef.current?.close();
             setPublicationsData((prevData: any) => {
                 const index = prevData.findIndex((e: any) => e.id == updatedData.id);
                 prevData[index] = updatedData;
@@ -93,25 +95,7 @@ const Publications = () => {
             console.error(e);
         }
     }
-    const setArticleAsFeatured = async (id: number) => {
-        try {
-            const { data: { updatedData } } = await $crud.patch('article-set-featured', { id });
-            setPublicationsData((prevData: any) => {
-                const featuredIndex = prevData.findIndex((e: any) => e.isFeatured);
-                if (featuredIndex > -1) {
-                    prevData[featuredIndex] = {
-                        ...prevData[featuredIndex],
-                        isFeatured: false
-                    };
-                }
-                const index = prevData.findIndex((e: any) => e.id === updatedData.id);
-                prevData[index] = updatedData;
-                return [...prevData];
-            });
-        } catch (e) {
-            console.error(e);
-        }
-    }
+
     const deletePublication = async (id: number) => {
         try {
             deleteModelRef.current?.close();
@@ -123,7 +107,6 @@ const Publications = () => {
     }
 
     const handleArticleModelOnSubmit = (data: { isEdited: boolean; data: any }) => {
-        publicationFormModelRef.current?.close();
         if (data.isEdited) {
             updatePublication(data.data);
         } else {
@@ -178,7 +161,7 @@ const Publications = () => {
             id: 'price',
             label: 'Price',
             align: 'center',
-            renderCell:({price})=> `₹${price}`
+            renderCell: ({ price }) => `₹${price}`
         },
         {
             id: 'isbn',
@@ -203,19 +186,12 @@ const Publications = () => {
             renderCell: ({ createdAt }) => dayjs(createdAt).format("DD MMMM YYYY")
         },
         {
-            id: 'storeLinks',
-            label: 'Store Links',
+            id: 'storeLink',
+            label: 'Store Link',
             align: 'center',
-            renderCell: ({ storeLinks }) => <div className="flex items-center justify-center gap-2">
+            renderCell: ({ storeLink }) => <div className="flex items-center justify-center gap-2">
                 <Link
-                    href={storeLinks.amazon ?? '#'}
-                    target="_blank"
-                    className="text-blue-600 hover:text-blue-800"
-                >
-                    <ExternalLink size={17} />
-                </Link>
-                <Link
-                    href={storeLinks.flipkart ?? '#'}
+                    href={storeLink ?? '#'}
                     target="_blank"
                     className="text-blue-600 hover:text-blue-800"
                 >
@@ -292,9 +268,9 @@ const Publications = () => {
                             </Dropdown>
                         </div>
 
-                        <div className="w-full">
+                        {/* <div className="w-full">
                             <Dropdown label="Created At" />
-                        </div>
+                        </div> */}
 
                         <div className="w-full">
                             <button

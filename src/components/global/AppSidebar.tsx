@@ -263,7 +263,6 @@ const AppSidebar: React.FC = () => {
                 </div>
 
                 <div className="mb-6">
-                    <h4 className="text-sm font-semibold text-gray-600 mb-3 uppercase tracking-wider">Compact</h4>
                     <div className="flex items-center space-x-3 justify-start">
                         <div className="relative">
                             <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-xl flex items-center justify-center shadow-lg">
@@ -274,7 +273,7 @@ const AppSidebar: React.FC = () => {
 
                         <div className="flex-1 min-w-0 text-left">
                             <p className="font-semibold text-gray-900 truncate">{user.name}</p>
-                            <p className="text-xs text-gray-500 truncate">admin</p>
+                            <p className="text-xs text-gray-500 truncate">{user.role}</p>
                         </div>
 
                         <LogOut className="w-5 h-5 text-red-500 duration-300 cursor-pointer" onClick={onLogout} />

@@ -1,4 +1,5 @@
 
+
 const html = `
 <style>
 
@@ -61,6 +62,10 @@ const html = `
     margin: 1.5rem 0;
     padding-left: 2rem;
 }
+.prose-ol {
+    margin: 1.5rem 0;
+    padding-left: 2rem;
+}
 
 .prose-li {
     margin-bottom: 0.5rem;
@@ -80,6 +85,12 @@ const html = `
 
 .prose-a:hover {
     color: #b91c1c;
+}
+
+@media only screen and (max-width: 480px) {
+  .prose{
+    font-size: 17px;
+  }
 }
 </style>
              <div class="prose">
@@ -127,4 +138,19 @@ const html = `
         <p class="prose-p">The transformation of the legal profession through artificial intelligence is not a distant possibility—it is happening now. The question is not whether these changes will occur, but how quickly and how effectively the legal community will adapt to embrace them.</p>
     </div>`
 
-export default html;
+const ol = '<ol class="prose-ol"><li>List item 1</li><li>List item 2</li><li>List item 3</li></ol>';
+const ul = '<ul class="prose-ul"><li>List item 1</li><li>List item 2</li><li>List item 3</li></ul>';
+const p = '<p class="prose-p">Insert Paragraph</p>';
+
+const defaultBlocksCode = {
+    articleTemplate: html,
+    ol,
+    ul,
+    p
+}
+
+export {
+    defaultBlocksCode,
+    html
+}
+// export default html;

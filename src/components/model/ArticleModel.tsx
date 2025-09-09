@@ -20,6 +20,7 @@ interface ArticleFormData {
     tags: string[];
     estimateReadTime: string;
     coverImage: File | null;
+    coverUrl: string;
 }
 
 
@@ -102,7 +103,7 @@ const ArticleModel = ({
                                             acceptedFileTypes={{
                                                 'image/jpeg': ['.jpg', '.jpeg', '.png'],
                                             }}
-                                            fileSize={0.90}
+                                            fileSize={0.30}
                                             onFileSelect={(file) => {
                                                 setFieldValue('coverImage', file);
                                             }}
@@ -111,7 +112,7 @@ const ArticleModel = ({
                                             values.coverImage &&
                                             <div className="relative  w-[150px] cursor-pointer flex justify-center bg-white border border-dashed border-gray-300 rounded-xl dark:bg-neutral-800 dark:border-neutral-600" data-hs-file-upload-trigger="">
                                                 <ImagePreview
-                                                    src={values.coverImage instanceof File ? URL.createObjectURL(values.coverImage) : BASE_ASSETS_URL + `/article-cover-images/${defaultData?.coverImage}`}
+                                                    src={values.coverImage instanceof File ? URL.createObjectURL(values.coverImage) : `${defaultData?.coverUrl}`}
                                                     alt="Article Cover"
                                                     className="w-[100%] h-[100px]"
                                                 />

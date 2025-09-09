@@ -145,8 +145,7 @@ export class CrudFactory {
         };
 
         const fullUrl: string = await this.getUrl(url);
-        // let token = await getTokenAsync();
-        const token: string = "";
+        const token = localStorage.getItem('token') ?? '';
 
         options.headers = {
             ...options.headers,
@@ -164,7 +163,7 @@ export class CrudFactory {
         const finalOptions: AxiosRequestConfig = {
             ...options,
             url: fullUrl,
-            validateStatus: (status: number) => status === 200 || status === 201 || status === 401 || status === 400
+            validateStatus: (status: number) => status === 200 || status === 201 || status === 401 || status === 400 || status === 403
         };
 
         try {
@@ -182,10 +181,12 @@ export class CrudFactory {
                     });
                 }
             }
-            else if (response.status === 401) {
+            else if (response.status === 401 || response.status === 403) {
                 res = response.data;
                 const { type, message } = res;
                 // unauthorize
+                localStorage.clear();
+                window.location.reload();
                 this.notify({
                     message: message,
                     type: "error",
@@ -209,7 +210,7 @@ export class CrudFactory {
                 type: "error",
             });
             throw e;
-        }finally{
+        } finally {
             loader.hide();
         }
 
