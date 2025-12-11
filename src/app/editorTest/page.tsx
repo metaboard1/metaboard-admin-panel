@@ -2,7 +2,7 @@
 
 import dynamic from 'next/dynamic';
 
-const ClientSideOnlyComponent = dynamic(
+const Editor = dynamic(
     () => import('../../components/local/editorTest/Editor'),
     { ssr: false }
 );
@@ -10,7 +10,7 @@ const ClientSideOnlyComponent = dynamic(
 
 const Page = () => {
     return (<>
-        <ClientSideOnlyComponent />
+        <Editor />
     </>)
 }
 export default Page;
