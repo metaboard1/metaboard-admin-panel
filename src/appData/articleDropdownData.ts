@@ -9,12 +9,18 @@ const dropdownList: DropdownItemProps[] = [
     },
     {
         id: 2,
+        label: 'Change article content (under testing)',
+        icon: SquareMousePointer,
+        navigate: '/editorTest'
+    },
+    {
+        id: 3,
         label: 'Edit',
         icon: SquarePen,
         navigate: ''
     },
     {
-        id: 3,
+        id: 4,
         label: 'Delete',
         icon: Trash2,
         iconClass: "text-red-500 hover:text-red-700 transition-colors",

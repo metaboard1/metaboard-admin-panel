@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@grapesjs/studio-sdk": "^1.0.56",
+    "@grapesjs/studio-sdk-plugins": "^1.0.28",
     "@silexlabs/grapesjs-fonts": "^1.1.0",
     "@silexlabs/grapesjs-ui-suggest-classes": "^1.1.0",
     "axios": "^1.10.0",
@@ -20,7 +22,7 @@
     "grapesjs-parser-postcss": "^1.0.3",
     "grapesjs-tui-image-editor": "^1.0.2",
     "lucide-react": "^0.525.0",
-    "next": "15.4.1",
+    "next": "15.4.8",
     "notistack": "^3.0.2",
     "react": "19.1.0",
     "react-dom": "19.1.0",
@@ -29,6 +31,7 @@
     "react-photo-view": "^1.2.7",
     "tailwind-merge": "^3.3.1",
     "tailwindcss": "^4.1.11",
+    "uuid": "^11.1.0",
     "yup": "^1.6.1"
   },
   "devDependencies": {

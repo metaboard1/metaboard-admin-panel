@@ -141,12 +141,14 @@ const html = `
 const ol = '<ol class="prose-ol"><li>List item 1</li><li>List item 2</li><li>List item 3</li></ol>';
 const ul = '<ul class="prose-ul"><li>List item 1</li><li>List item 2</li><li>List item 3</li></ul>';
 const p = '<p class="prose-p">Insert Paragraph</p>';
+const div = '<div></div>'
 
 const defaultBlocksCode = {
     articleTemplate: html,
     ol,
     ul,
-    p
+    p,
+    div
 }
 
 export {
