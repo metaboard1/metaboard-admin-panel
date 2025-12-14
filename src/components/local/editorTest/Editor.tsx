@@ -7,7 +7,7 @@ import StudioEditor from '@grapesjs/studio-sdk/react';
 import { tableComponent, listPagesComponent, flexComponent, rteTinyMce, youtubeAssetProvider, rteProseMirror, layoutSidebarButtons } from '@grapesjs/studio-sdk-plugins';
 import '@grapesjs/studio-sdk/style';
 import { v4 as uuidv4 } from 'uuid';
-import { defaultBlocksCode } from '@/appData/defaultHtml';
+import { defaultBlocksCode, styles } from '@/appData/defaultHtml';
 
 const Editor = () => {
     const searchParams = useSearchParams();
@@ -21,7 +21,7 @@ const Editor = () => {
         try {
             const id = searchParams.get('id');
             const { data: { contentHtml, contentCss } } = await $crud.retrieve(`article-by-id?id=${id}`);
-            return `<style>${contentCss}</style> ${contentHtml}`
+            return contentHtml ? `<style>${contentCss}</style> ${contentHtml}` : ''
         } catch (e) {
             console.log(e)
         }
@@ -135,6 +135,7 @@ const Editor = () => {
             onLoad: async () => {
                 return {
                     project: {
+                        styles: styles,
                         pages: [
                             { name: 'Article', component: await getArticleContent() },
                         ]

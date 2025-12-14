@@ -1,7 +1,5 @@
 
-
-const html = `
-<style>
+const styles = `
 
 .prose {
     color: #374151;
@@ -92,6 +90,10 @@ const html = `
     font-size: 17px;
   }
 }
+`
+const html = `
+<style>
+${styles}
 </style>
              <div class="prose">
         <p class="prose-p prose-p-first">The legal profession stands at the precipice of a technological revolution that promises to fundamentally reshape how law is practiced, understood, and delivered to clients worldwide.</p>
@@ -153,6 +155,7 @@ const defaultBlocksCode = {
 
 export {
     defaultBlocksCode,
-    html
+    html,
+    styles
 }
 // export default html;
